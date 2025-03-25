@@ -24,9 +24,18 @@ pipeline{
         }
 
         stage('Test'){
+
+            agent{
+                docker{
+                    image 'node:23-alpine'
+                    reuseNode true
+                }
+            }
+
             steps{
                 sh '''
-                    echo "This is the testing part"
+                    test -f build/index.html
+                    npm test
                 '''
             }
         }
